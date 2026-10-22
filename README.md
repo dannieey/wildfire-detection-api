@@ -55,9 +55,6 @@ Satellite remote sensing using MODIS and VIIRS sensors provides vital global act
 
 ## Links and Documentation
 
-- **YouTrack Project:** https://wildfire-detection-api.youtrack.cloud/agiles/204-0/current 
-- **Project Documentation:** Located in the `/docs` directory of this repository (includes Project Proposal, Literature Review Matrix, System Comparisons, and Requirements Specification).
-
 ---
 
 ## Setup, Execution, and Testing Instructions
