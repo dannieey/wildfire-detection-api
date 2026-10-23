@@ -1,0 +1,20 @@
+graph LR
+    User["<b>Monitoring Operator / Researcher</b><br/><i>[Person]</i><br/>Inspects thermal anomalies and<br/>clustered wildfire events."]
+    
+    System["<b>Wildfire Detection System</b><br/><i>[Software System]</i><br/>Retrieves, clusters, and displays<br/>satellite active-fire data."]
+    
+    FIRMS["<b>NASA FIRMS API</b><br/><i>[External System]</i><br/>Provides MODIS & VIIRS<br/>thermal anomaly data feeds."]
+    
+    Mapbox["<b>Mapbox / Tile Services</b><br/><i>[External System]</i><br/>Provides vector base maps<br/>and geospatial visual tiles."]
+
+    User -->|Views active fires & applies filters| System
+    System -->|Fetches active fire observations| FIRMS
+    User -->|Loads base map tiles| Mapbox
+
+    classDef person fill:#08427b,stroke:#073b6f,color:#fff;
+    classDef system fill:#1168bd,stroke:#0e5296,color:#fff;
+    classDef external fill:#999999,stroke:#666666,color:#fff;
+
+    class User person;
+    class System system;
+    class FIRMS,Mapbox external;

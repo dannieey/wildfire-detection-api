@@ -1,0 +1,35 @@
+graph TB
+    subgraph Client [" <b>Frontend Application (Web Map)</b> "]
+        UI["<b>Mapbox / Leaflet UI</b><br/>Interactive Map & Filter Controls"]
+    end
+
+    subgraph Backend [" <b>Backend Service (FastAPI)</b> "]
+        Router["<b>REST API Router</b><br/>Exposes GeoJSON Endpoints"]
+        Ingestion["<b>Ingestion Service</b><br/>Pipeline for NASA FIRMS data"]
+        Clustering["<b>Clustering Engine</b><br/>DBSCAN / HDBSCAN Algorithm"]
+    end
+
+    subgraph Data [" <b>Database Infrastructure</b> "]
+        DB[("<b>PostgreSQL + PostGIS</b><br/>Spatial Tables & Indexing")]
+    end
+
+    subgraph ExternalServices [" <b>External Data Sources</b> "]
+        FIRMS_API["<b>NASA FIRMS REST API</b>"]
+    end
+
+    FIRMS_API -->|Download CSV/JSON| Ingestion
+    Ingestion -->|Store Spatial Points| DB
+    DB -->|Query Anomalies| Clustering
+    Clustering -->|Generate Events| Router
+    Router -->|GeoJSON Response| UI
+
+    classDef frontend fill:#2b7cff,stroke:#1a5bb8,color:#fff;
+    classDef backend fill:#009688,stroke:#00695c,color:#fff;
+    classDef db fill:#ff9800,stroke:#e65100,color:#fff;
+    classDef ext fill:#78909c,stroke:#37474f,color:#fff;
+
+    class UI frontend;
+    class Router,Ingestion,Clustering backend;
+    class DB db;
+    class FIRMS_API ext;
+    
