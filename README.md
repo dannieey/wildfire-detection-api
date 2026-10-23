@@ -23,8 +23,8 @@ Satellite remote sensing using MODIS and VIIRS sensors provides vital global act
 
 ## Team Members, Responsibilities, and Supervisor
 
-- **Danel Li** (Group: SE-2406) — Lead Backend Engineer: System & API architecture design, spatial database schema modeling (PostgreSQL/PostGIS), geospatial data processing algorithms, spatiotemporal clustering pipeline, and core backend optimization[cite: 3].
-- **Ramina Kuzhentayeva** (Group: SE-2406) — Lead Frontend & UI/UX Engineer: Interactive web map dashboard development, frontend UI design, client-side data visualization, NASA FIRMS API integration, and user scenario testing[cite: 2, 3].
+- **Danel Li** (Group: SE-2406) — Lead Backend Engineer: System & API architecture design, spatial database schema modeling (PostgreSQL/PostGIS), geospatial data processing algorithms, spatiotemporal clustering pipeline, and core backend optimization
+- **Ramina Kuzhentayeva** (Group: SE-2406) — Lead Frontend & UI/UX Engineer: Interactive web map dashboard development, frontend UI design, client-side data visualization, NASA FIRMS API integration, and user scenario testing
 - **Supervisor:** Alshynov Shynggys
 
 ---

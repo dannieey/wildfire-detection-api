@@ -1,0 +1,33 @@
+erDiagram
+    RAW_FIRMS_DETECTION }o--o| CLUSTERED_WILDFIRE_EVENT : "clustered into"
+
+    RAW_FIRMS_DETECTION {
+        uuid id PK "Primary Key (Internal)"
+        float latitude "Latitude coordinate (WGS84)"
+        float longitude "Longitude coordinate (WGS84)"
+        geometry geom "PostGIS Point Geometry (SRID 4326)"
+        float bright_ti4 "VIIRS I4 / MODIS Brightness Temp (K)"
+        float scan "Along-scan pixel spatial size"
+        float track "Along-track pixel spatial size"
+        date acq_date "Data Acquisition Date (YYYY-MM-DD)"
+        string acq_time "Data Acquisition Time (UTC)"
+        string satellite "Satellite ID (N=NPP, N21=NOAA-21, A=Aqua, T=Terra)"
+        string instrument "Sensor Name (VIIRS / MODIS)"
+        string confidence "Detection confidence (l/n/h or 0-100%)"
+        float bright_ti5 "VIIRS I5 / MODIS Brightness Temp (K)"
+        float frp "Fire Radiative Power (MW)"
+        string daynight "Day or Night flag (D / N)"
+        uuid cluster_id FK "Foreign Key to Clustered Event"
+    }
+
+    CLUSTERED_WILDFIRE_EVENT {
+        uuid cluster_id PK "Primary Key (Cluster Identifier)"
+        string cluster_code "Human-readable Event ID (e.g., EVT_2026_001)"
+        geometry boundary_polygon "PostGIS Convex Hull / Alpha Shape Polygon"
+        int total_points_count "Number of aggregated detection points"
+        datetime start_time "Earliest detection timestamp in cluster"
+        datetime end_time "Latest detection timestamp in cluster"
+        float max_frp "Maximum Fire Radiative Power in cluster"
+        float avg_brightness "Average brightness temperature"
+        string status "Event status (Active / Inactive)"
+    }

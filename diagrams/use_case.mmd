@@ -1,0 +1,24 @@
+graph TD
+    User(("<b>Monitoring Operator</b>"))
+    System(("<b>NASA FIRMS API</b>"))
+
+    subgraph SystemBoundary [" <b>Wildfire Event Detection System</b> "]
+        direction TB
+        UC1["<b>UC-1: Fetch Active Fires</b><br/>Retrieve near-real-time data"]
+        UC2["<b>UC-2: Spatiotemporal Clustering</b><br/>Group anomalies into events"]
+        UC3["<b>UC-3: Filter Fire Events</b><br/>By date, confidence & sensor"]
+        UC4["<b>UC-4: Inspect Event Details</b><br/>View metadata & FRP"]
+        UC5["<b>UC-5: Export GeoJSON Data</b><br/>Download processed layer"]
+    end
+
+    System --> UC1
+    UC1 --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+
+    classDef actor fill:#08427b,stroke:#073b6f,color:#fff;
+    classDef usecase fill:#f9f9f9,stroke:#333,stroke-width:1px,color:#000;
+
+    class User,System actor;
+    class UC1,UC2,UC3,UC4,UC5 usecase;
