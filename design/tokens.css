@@ -1,0 +1,34 @@
+:root {
+  /* PyroScope UI tokens — DIP-10 */
+  color-scheme: dark;
+  --ps-bg: #0b1117;
+  --ps-surface: #111a23;
+  --ps-surface-raised: #151f2a;
+  --ps-border: #263442;
+  --ps-text: #edf4f7;
+  --ps-muted: #91a3b2;
+  --ps-high: #ff784f;
+  --ps-medium: #ffbf69;
+  --ps-low: #6cb8ff;
+  --ps-success: #67d5a5;
+  --ps-danger: #ff5f66;
+  --ps-radius-sm: 8px;
+  --ps-radius-md: 12px;
+  --ps-radius-lg: 16px;
+  --ps-space-1: 4px;
+  --ps-space-2: 8px;
+  --ps-space-3: 12px;
+  --ps-space-4: 16px;
+  --ps-space-5: 20px;
+  --ps-space-6: 24px;
+  --ps-shadow-panel: 0 16px 40px rgb(0 0 0 / 24%);
+  --ps-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+body { font-family: var(--ps-font); background: var(--ps-bg); color: var(--ps-text); }
+.ps-panel { background: var(--ps-surface); border: 1px solid var(--ps-border); border-radius: var(--ps-radius-lg); }
+.ps-muted { color: var(--ps-muted); }
+.ps-severity--high { color: var(--ps-high); }
+.ps-severity--medium { color: var(--ps-medium); }
+.ps-severity--low { color: var(--ps-low); }
+.ps-button { border: 1px solid var(--ps-border); border-radius: var(--ps-radius-sm); padding: 8px 12px; font: inherit; }
+.ps-button--primary { background: var(--ps-high); color: #1d1714; border-color: var(--ps-high); font-weight: 700; }
