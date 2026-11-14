@@ -1,0 +1,9 @@
+Metric,Spatial-only DBSCAN,Spatiotemporal DBSCAN
+Candidate events,"4,223","8,496"
+Isolated detections,"1,620","5,798"
+Items to review,"5,843","14,294"
+Reduction vs raw points,93.5%,84.2%
+Median duration (h),23.70,0.38
+90th percentile duration (h),"4,477.7",47.7
+Events longer than 7 days,39.1%,0.9%
+Persistent-hotspot events,252,5
