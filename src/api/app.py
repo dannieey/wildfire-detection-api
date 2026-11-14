@@ -8,7 +8,7 @@ from __future__ import annotations
 import io
 import logging
 import os
-from typing import Literal
+from typing import Literal, Optional
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -46,7 +46,7 @@ def _filters(start, end, sensor, region, bbox, min_confidence=None, min_priority
                    exclude_persistent)
 
 
-def _ds(dataset: str | None) -> str:
+def _ds(dataset: Optional[str]) -> str:
     return dataset or DEFAULT_DATASET
 
 
@@ -75,19 +75,19 @@ def datasets():
 
 
 @app.get("/api/v1/meta")
-def meta(dataset: str | None = Q_DS):
+def meta(dataset: Optional[str] = Q_DS):
     return store.meta(_ds(dataset))
 
 
 @app.get("/api/v1/events")
 def events(
-    dataset: str | None = Q_DS, start: str | None = Q_START, end: str | None = Q_END,
-    sensor: str | None = Q_SENSOR, region: str | None = None, bbox: str | None = Q_BBOX,
-    min_priority: Literal["low", "medium", "high"] | None = None, min_detections: int | None = Query(None, ge=1),
-    status: Literal["active", "inactive"] | None = None, exclude_persistent: bool = False,
+    dataset: Optional[str] = Q_DS, start: Optional[str] = Q_START, end: Optional[str] = Q_END,
+    sensor: Optional[str] = Q_SENSOR, region: Optional[str] = None, bbox: Optional[str] = Q_BBOX,
+    min_priority: Optional[Literal["low", "medium", "high"]] = None, min_detections: Optional[int] = Query(None, ge=1),
+    status: Optional[Literal["active", "inactive"]] = None, exclude_persistent: bool = False,
     geometry: Literal["point", "hull"] = "point",
     sort: str = Query("-start_time", description="field, prefix '-' for descending (e.g. -max_frp)"),
-    limit: int | None = Query(None, ge=1, le=20000),
+    limit: Optional[int] = Query(None, ge=1, le=20000),
 ):
     """Candidate events as a GeoJSON FeatureCollection (centroids or convex hulls)."""
     f = _filters(start, end, sensor, region, bbox, None, min_priority, min_detections, status, exclude_persistent)
@@ -95,7 +95,7 @@ def events(
 
 
 @app.get("/api/v1/events/{event_id}")
-def event_detail(event_id: str, dataset: str | None = Q_DS):
+def event_detail(event_id: str, dataset: Optional[str] = Q_DS):
     """One event: summary, hull, daily breakdown and its detections (GeoJSON)."""
     d = store.event_detail(_ds(dataset), event_id)
     return {"event": d["event"], "detections": detections_geojson(d["detections"])}
@@ -103,9 +103,9 @@ def event_detail(event_id: str, dataset: str | None = Q_DS):
 
 @app.get("/api/v1/detections")
 def detections(
-    dataset: str | None = Q_DS, start: str | None = Q_START, end: str | None = Q_END,
-    sensor: str | None = Q_SENSOR, region: str | None = None, bbox: str | None = Q_BBOX,
-    min_confidence: Literal["nominal", "high"] | None = None, include_noise: bool = True,
+    dataset: Optional[str] = Q_DS, start: Optional[str] = Q_START, end: Optional[str] = Q_END,
+    sensor: Optional[str] = Q_SENSOR, region: Optional[str] = None, bbox: Optional[str] = Q_BBOX,
+    min_confidence: Optional[Literal["nominal", "high"]] = None, include_noise: bool = True,
     limit: int = Query(50000, ge=1, le=200000),
 ):
     """Raw (cleaned) detections - the unclustered baseline layer."""
@@ -117,36 +117,36 @@ def detections(
 
 
 @app.get("/api/v1/stats/summary")
-def stats_summary(dataset: str | None = Q_DS, start: str | None = Q_START, end: str | None = Q_END,
-                  sensor: str | None = Q_SENSOR, region: str | None = None, bbox: str | None = Q_BBOX):
+def stats_summary(dataset: Optional[str] = Q_DS, start: Optional[str] = Q_START, end: Optional[str] = Q_END,
+                  sensor: Optional[str] = Q_SENSOR, region: Optional[str] = None, bbox: Optional[str] = Q_BBOX):
     """KPI tiles: events, high priority, detections, latest observation."""
     return store.summary(_ds(dataset), _filters(start, end, sensor, region, bbox))
 
 
 @app.get("/api/v1/stats/timeseries")
-def stats_timeseries(dataset: str | None = Q_DS, start: str | None = Q_START, end: str | None = Q_END,
-                     sensor: str | None = Q_SENSOR, region: str | None = None,
+def stats_timeseries(dataset: Optional[str] = Q_DS, start: Optional[str] = Q_START, end: Optional[str] = Q_END,
+                     sensor: Optional[str] = Q_SENSOR, region: Optional[str] = None,
                      freq: Literal["D", "W", "M"] = "D"):
     return store.timeseries(_ds(dataset), _filters(start, end, sensor, region, None), freq)
 
 
 @app.get("/api/v1/stats/regions")
-def stats_regions(dataset: str | None = Q_DS, start: str | None = Q_START, end: str | None = Q_END,
-                  sensor: str | None = Q_SENSOR):
+def stats_regions(dataset: Optional[str] = Q_DS, start: Optional[str] = Q_START, end: Optional[str] = Q_END,
+                  sensor: Optional[str] = Q_SENSOR):
     return store.by_region(_ds(dataset), _filters(start, end, sensor, None, None))
 
 
 @app.get("/api/v1/evaluation")
-def evaluation(dataset: str | None = Q_DS):
+def evaluation(dataset: Optional[str] = Q_DS):
     """Hypothesis tests (H1 cross-sensor, H2 temporal vs spatial), sensitivity grid, data quality."""
     ds = _ds(dataset)
     return {"evaluation": store.evaluation(ds), "quality": store.meta(ds).get("quality")}
 
 
 @app.get("/api/v1/export/events.{fmt}")
-def export_events(fmt: Literal["csv", "geojson"], dataset: str | None = Q_DS, start: str | None = Q_START,
-                  end: str | None = Q_END, sensor: str | None = Q_SENSOR, region: str | None = None,
-                  min_priority: Literal["low", "medium", "high"] | None = None):
+def export_events(fmt: Literal["csv", "geojson"], dataset: Optional[str] = Q_DS, start: Optional[str] = Q_START,
+                  end: Optional[str] = Q_END, sensor: Optional[str] = Q_SENSOR, region: Optional[str] = None,
+                  min_priority: Optional[Literal["low", "medium", "high"]] = None):
     ev = store.events(_ds(dataset), _filters(start, end, sensor, region, None, None, min_priority))
     if fmt == "geojson":
         return JSONResponse(events_geojson(ev, geometry="hull"),
