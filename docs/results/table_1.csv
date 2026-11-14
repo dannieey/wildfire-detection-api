@@ -1,0 +1,9 @@
+Sensor,Step,Removed,Remaining
+VIIRS,Raw records,-,127345
+VIIRS,Non-vegetation source type (kept types [0]),29884,97461
+VIIRS,Low confidence,6155,91306
+VIIRS,Outside national border (both sensors),721,-
+MODIS,Raw records,-,15458
+MODIS,Non-vegetation source type (kept types [0]),1417,14041
+MODIS,Low confidence,773,13268
+MODIS,Outside national border (both sensors),721,-
