@@ -65,11 +65,13 @@ Satellite remote sensing using MODIS and VIIRS sensors provides vital global act
 - Python 3.10+
 - Git
 
-### Installation
+### Quick start
 ```bash
-# Clone the repository
-git clone [https://github.com/dannieey/wildfire-detection-api.git](https://github.com/dannieey/wildfire-detection-api.git)
+git clone https://github.com/dannieey/wildfire-detection-api.git
 cd wildfire-detection-api
-
-# Install dependencies (coming soon)
-# pip install -r requirements.txt
+pip install -r requirements.txt && pytest
+python -m src.pipeline --name kz_2025 --viirs data/raw/viirs-jpss1_2025_Kazakhstan.csv --modis data/raw/modis_2025_Kazakhstan.csv
+uvicorn src.api.app:app --reload --port 8000
+```
+Full instructions (data download, outputs, method parameters): [docs/backend.md](docs/backend.md).
+API contract for the frontend: [docs/api_contract.md](docs/api_contract.md).
