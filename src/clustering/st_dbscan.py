@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 from scipy import sparse
 from sklearn.cluster import DBSCAN
-from sklearn.neighbors import BallTree
+from sklearn.neighbors import BallTree, sort_graph_by_row_values
 
 EARTH_RADIUS_KM = 6371.0088
 
@@ -49,6 +49,7 @@ def st_dbscan_labels(
 
     # +1e-6 keeps zero distances (incl. self-pairs) as explicit sparse entries.
     graph = sparse.csr_matrix((d_km + 1e-6, (rows, cols)), shape=(n, n))
+    graph = sort_graph_by_row_values(graph, warn_when_not_sorted=False)
     db = DBSCAN(eps=eps_km + 1e-3, min_samples=min_samples, metric="precomputed")
     return db.fit_predict(graph)
 
