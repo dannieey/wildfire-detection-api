@@ -17,3 +17,9 @@ ENV/
 .DS_Store
 .idea/
 .vscode/
+# Data (download from NASA FIRMS; see docs/backend.md)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+.pytest_cache/
